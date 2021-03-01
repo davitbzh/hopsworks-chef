@@ -75,3 +75,5 @@ DROP FOREIGN KEY `fs_connector_snowflake_fk`,
 DROP COLUMN `snowflake_id`;
 
 DROP TABLE IF EXISTS `hopsworks`.`feature_store_snowflake_connector`;
+
+DROP TABLE `hopsworks`.`hopsfs_transformation_function`;

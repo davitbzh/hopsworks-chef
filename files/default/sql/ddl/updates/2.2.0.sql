@@ -124,3 +124,16 @@ CREATE TABLE IF NOT EXISTS `hopsworks`.`feature_store_snowflake_connector` (
 ALTER TABLE `hopsworks`.`feature_store_connector`
   ADD COLUMN `snowflake_id` INT(11) after `adls_id`,
   ADD CONSTRAINT `fs_connector_snowflake_fk` FOREIGN KEY (`snowflake_id`) REFERENCES `hopsworks`.`feature_store_snowflake_connector` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+CREATE TABLE IF NOT EXISTS `hopsfs_transformation_function` (
+  `id`                                INT(11)         NOT NULL AUTO_INCREMENT,
+  `inode_pid`                         BIGINT(20)      NOT NULL,
+  `inode_name`                        VARCHAR(255)    NOT NULL,
+  `partition_id`                      BIGINT(20)      NOT NULL,
+  `function_type`                     VARCHAR(30)   NOT NULL,
+  `transformation_function_location`  VARCHAR(1000)   NOT NULL,
+  `hopsfs_training_dataset_id`        INT(11)         NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `hopsfs_transf_inode_fk` FOREIGN KEY (`inode_pid`, `inode_name`, `partition_id`) REFERENCES `hops`.`hdfs_inodes` (`parent_id`, `name`, `partition_id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+  CONSTRAINT `hopsfs_training_dataset_fn_fk` FOREIGN KEY (`hopsfs_training_dataset_id`) REFERENCES `hopsfs_training_dataset` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE = ndbcluster DEFAULT CHARSET = latin1 COLLATE = latin1_general_cs;
